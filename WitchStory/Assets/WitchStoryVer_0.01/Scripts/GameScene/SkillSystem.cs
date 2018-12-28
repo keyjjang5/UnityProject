@@ -29,7 +29,7 @@ public class SkillSystem : MonoBehaviour {
             //Debug.Log("포문 돌아감" + i);
             Transform newSkillSlot = Instantiate(skillSlotTransform);
             newSkillSlot.name = "SkillSlot" + (i + 1);
-            newSkillSlot.parent = skillBoard.transform;
+            newSkillSlot.SetParent(skillBoard.transform);
             //if (newSkillSlot.GetComponent<Slot>().item.itemValue == 0)
             //{
             //    newSkillSlot.GetChild(0).gameObject.SetActive(false);

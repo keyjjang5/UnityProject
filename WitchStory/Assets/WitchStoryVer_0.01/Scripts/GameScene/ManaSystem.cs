@@ -21,7 +21,7 @@ public class ManaSystem : MonoBehaviour {
     //위아래로 움직이는 변수들
 
     //타임스케일 대신 속도를 바꾸기위한 변수
-    GameObject[] mage;
+    GameObject[] undead;
     GameObject magePrefep;
     GameObject summonMage;
     float beforeSpeed = 0;
@@ -69,12 +69,12 @@ public class ManaSystem : MonoBehaviour {
                 if(endPos.y - startPos.y > 40)
                 {
                     onUpManaSystem = true;
-                    mage = GameObject.FindGameObjectsWithTag("Mage");
+                    undead = GameObject.FindGameObjectsWithTag("Undead");
                     magePrefep.GetComponent<MageMove>().character.speed = 0.5f;
-                    beforeSpeed = mage[0].GetComponent<MageMove>().character.speed;
-                    for (int i = 0; i < mage.Length; i++)
+                    beforeSpeed = undead[0].GetComponent<MageMove>().character.speed;
+                    for (int i = 0; i < undead.Length; i++)
                     {
-                        mage[i].GetComponent<MageMove>().character.speed = 0.5f;
+                        undead[i].GetComponent<MageMove>().character.speed = 0.5f;
                     }
                 }
             }
@@ -84,11 +84,11 @@ public class ManaSystem : MonoBehaviour {
                 if (startPos.y - endPos.y > 40)
                 {
                     onDownManaSystem = true;
-                    mage = GameObject.FindGameObjectsWithTag("Mage");
+                    undead = GameObject.FindGameObjectsWithTag("Undead");
                     magePrefep.GetComponent<MageMove>().character.speed = beforeSpeed;
-                    for (int i = 0; i < mage.Length; i++)
+                    for (int i = 0; i < undead.Length; i++)
                     {
-                        mage[i].GetComponent<MageMove>().character.speed = beforeSpeed;
+                        undead[i].GetComponent<MageMove>().character.speed = beforeSpeed;
                     }
                 }
             }
@@ -112,11 +112,11 @@ public class ManaSystem : MonoBehaviour {
 
     private void OnDestroy()
     {
-        mage = GameObject.FindGameObjectsWithTag("Mage");
+        undead = GameObject.FindGameObjectsWithTag("Undead");
         magePrefep.GetComponent<MageMove>().character.speed = 1.5f;
-        for (int i = 0; i < mage.Length; i++)
+        for (int i = 0; i < undead.Length; i++)
         {
-            mage[i].GetComponent<MageMove>().character.speed = 1.5f;
+            undead[i].GetComponent<MageMove>().character.speed = 1.5f;
         }
     }
 
@@ -142,7 +142,7 @@ public class ManaSystem : MonoBehaviour {
             onSkillBoardUp = false;
             onUpSkillBoard = true;
             ChangeValue("EventObject");
-            System.Array.Clear(mage, 0, mage.Length);
+            System.Array.Clear(undead, 0, undead.Length);
             
         }
     }
@@ -163,7 +163,7 @@ public class ManaSystem : MonoBehaviour {
             onDownManaSystem = false;
             onSkillBoardDown = false;
             onUpSkillBoard = false;
-            System.Array.Clear(mage, 0, mage.Length);
+            System.Array.Clear(undead, 0, undead.Length);
             ChangeValue("EventObject");
         }
     }

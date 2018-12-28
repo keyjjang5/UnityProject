@@ -10,7 +10,7 @@ public class slimeControl : MonoBehaviour
     public float HP = 1000;
     public float AP = 0;
     public float atk = 10;
-    public float def = 1.0f;   // 물리방어(스켈레톤 몸박)
+    float def = 1.0f;   // 물리방어(스켈레톤 몸박)
     float mdef = 1.0f;  // 마법방어
     float adef = 1.0f;  // 넉백방어
 
@@ -26,7 +26,9 @@ public class slimeControl : MonoBehaviour
 
     public int phase = 0;       // 몬스터의 페이즈 0~2까지 있음
     public float attackMotion;   // 공격 사이 간격 1-phase*0.1
+    float maxAttackMotion;      // 모션시간의 기준값
     public float attackDelay;
+    float maxAttackDelay;
     public bool isAttack = false;
     public GameObject attackBox;
 
@@ -37,6 +39,7 @@ public class slimeControl : MonoBehaviour
 
     //스킬에 사용하기위한 이동속도 변수화
     public float speed = 0.5f;
+
     // Use this for initialization
     void Start()
     {
@@ -45,7 +48,10 @@ public class slimeControl : MonoBehaviour
         HpTest = GameObject.Find("HPtest");
         ApTest = GameObject.Find("APtest");
 
-        attackMotion = 1.0f;
+        maxAttackMotion = 1.0f;
+        maxAttackDelay = 3.0f;
+        attackMotion = maxAttackMotion;
+        attackDelay = maxAttackDelay;
         StartCoroutine(changePhase());
     }
 
@@ -60,7 +66,7 @@ public class slimeControl : MonoBehaviour
         walkTime += timer;
 
         //예전버전
-        //if(save >= slimeTime)
+        //if (save >= slimeTime)
         //{
         //    return;
         //}
@@ -79,8 +85,9 @@ public class slimeControl : MonoBehaviour
         //    slimeTime = 0;
         //}
 
-        //HpTest.GetComponent<Slider>().value = HP / 1000;
-        //ApTest.GetComponent<Slider>().value = AP / 200;
+        // Hp, Ap 표시
+        HpTest.GetComponent<Slider>().value = HP / 1000;
+        ApTest.GetComponent<Slider>().value = AP / 200;
 
         //페이즈 변화
         if (phase == 0 && HP <= maxHp * 2 / 3)
@@ -94,6 +101,16 @@ public class slimeControl : MonoBehaviour
         //공격
         if (isAttack)
             attackMotion -= timer;
+        else
+        {
+            attackDelay -= timer;
+            if (attackDelay <= 0)
+            {
+                isAttack = true;
+                attackDelay = maxAttackDelay;
+            }
+        }
+
 
         if (isAttack && attackMotion <= 0)
             attack();
@@ -122,30 +139,29 @@ public class slimeControl : MonoBehaviour
 
 
         // 키입력으로 공격(임시)
-        if (Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            isAttack = true;
-            AttackBox.isAttack = true;
-        }
+        //if (Input.GetKeyDown(KeyCode.Keypad1))
+        //{
+        //    isAttack = true;
+        //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Mage")
-        {
-            slime.GetComponent<slimeControl>().HP -= mage.GetComponent<MageMove>().character.atk;
-            //knockBack();
-            AP += mage.GetComponent<MageMove>().character.ap;
-        }
+        //if (collision.gameObject.tag == "Undead")
+        //{
+        //    slime.GetComponent<slimeControl>().HP -= mage.GetComponent<MageMove>().character.atk;
+        //    //knockBack();
+        //    AP += mage.GetComponent<MageMove>().character.ap;
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Mage" && !isAttack)
+        if (collision.gameObject.tag == "Undead" && !isAttack)
         {
             slime.GetComponent<slimeControl>().HP -= mage.GetComponent<MageMove>().character.atk * def;
             //knockBack();
-            AP += mage.GetComponent<MageMove>().character.ap;
+            AP += mage.GetComponent<MageMove>().character.ap * adef;
         }
     }
 
@@ -193,6 +209,7 @@ public class slimeControl : MonoBehaviour
 
         attackMotion = 1.0f;
         isAttack = false;
+        transform.GetChild(0).GetComponent<AttackBox>().onAttackBox();
     }
 
     //스킬을 위한 함수?
@@ -213,6 +230,7 @@ public class slimeControl : MonoBehaviour
             {
                 def = 0.75f;
                 mdef = 1.25f;
+                adef = 0.75f;
             }
             yield return new WaitForSeconds(1.0f);
         }
@@ -221,7 +239,7 @@ public class slimeControl : MonoBehaviour
         {
             def = 0.5f;
             mdef = 1.5f;
-
+            adef = 0.5f;
         }
     }
 }

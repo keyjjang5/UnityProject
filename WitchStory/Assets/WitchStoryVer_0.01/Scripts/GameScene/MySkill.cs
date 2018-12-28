@@ -90,7 +90,7 @@ public class MyStickyBombSkill : MyAttackSkill
     override public void UseSkill(int skillNumber)//스킬사용, 추가적인 특성을 오브젝트에 부여하는 방식
     {
         Debug.Log("스티키붐 사용됨");
-        GameObject target = GameObject.FindGameObjectWithTag("Mage");
+        GameObject target = GameObject.FindGameObjectWithTag("Undead");
         GameObject myPrefap = Resources.Load("Property") as GameObject;
        
         GameObject newProperty = MonoBehaviour.Instantiate(myPrefap);

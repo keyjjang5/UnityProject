@@ -41,10 +41,15 @@ public class AttackBox : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         float distance = Vector2.Distance(transform.position, collision.transform.position);
-        if (collision.gameObject.tag == "Mage" && isAttack && distance >= 1.5) 
+        if (collision.gameObject.tag == "Undead" && isAttack && distance >= 1.5) 
         {
             monster.GetComponent<slimeControl>().HP -= collision.gameObject.GetComponent<MageMove>().character.atk / 2;
             Destroy(collision.gameObject);
         }
+    }
+
+    public void onAttackBox()
+    {
+        setAttack(true);
     }
 }

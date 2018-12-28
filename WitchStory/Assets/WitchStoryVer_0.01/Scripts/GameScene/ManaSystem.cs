@@ -27,7 +27,8 @@ public class ManaSystem : MonoBehaviour {
     float beforeSpeed = 0;
 
     //유닛 생성이안되도록 하는 변수
-    
+    public GameObject value;
+
     // Use this for initialization
     void Start () {
         manaBar = GameObject.Find("ManaTest");
@@ -43,10 +44,7 @@ public class ManaSystem : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             startPos = Input.mousePosition;
-            if (mana >= 100)
-                return;
-            mana += 1;
-            manaBar.GetComponent<Slider>().value = mana / 100;
+            
             if(!onUpSkillBoard)
                 if (startPos.y < 40)
                 {
@@ -143,8 +141,9 @@ public class ManaSystem : MonoBehaviour {
             onUpManaSystem = false;
             onSkillBoardUp = false;
             onUpSkillBoard = true;
+            ChangeValue("EventObject");
             System.Array.Clear(mage, 0, mage.Length);
-            ChangeValue("SummonSkeletonSystem");
+            
         }
     }
     void backwalk(float timer)
@@ -165,15 +164,24 @@ public class ManaSystem : MonoBehaviour {
             onSkillBoardDown = false;
             onUpSkillBoard = false;
             System.Array.Clear(mage, 0, mage.Length);
-            ChangeValue("SummonSkeletonSystem");
+            ChangeValue("EventObject");
         }
     }
 
     void ChangeValue(string name)
     {
-        GameObject value = GameObject.Find(name);
+        //GameObject
+            value = GameObject.Find(name);
         
-        value.GetComponent<SummonSkeletonSystem>().ChangeBoolValue(ref value.GetComponent<SummonSkeletonSystem>().IsOnSummonSystem);
+        value.GetComponent<SummonUndeadSystem>().ChangeBoolValue(ref value.GetComponent<SummonUndeadSystem>().IsOnSummonSystem);
+    }
+
+    public void increaseMana()
+    {
+        if (mana >= 100)
+            return;
+        mana += 1;
+        manaBar.GetComponent<Slider>().value = mana / 100;
     }
 }
 

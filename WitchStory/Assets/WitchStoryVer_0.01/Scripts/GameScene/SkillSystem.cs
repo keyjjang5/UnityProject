@@ -40,7 +40,7 @@ public class SkillSystem : MonoBehaviour {
 
             slotRect.offsetMin = Vector2.zero;
             slotRect.offsetMax = Vector2.zero;
-            slotRect.GetComponent<RectTransform>().sizeDelta = new Vector2(100.0f, 100.0f);
+            slotRect.GetComponent<RectTransform>().sizeDelta = new Vector2(100f, 100f);
 
             //newSkillSlot의 MySkillSlot을 skillSlotList에 추가하는거임, 이거떔에 스킬이미지가 안들어가서 망함 주의
             skillSlotList.Add(newSkillSlot.GetComponent<MySkillSlot>());

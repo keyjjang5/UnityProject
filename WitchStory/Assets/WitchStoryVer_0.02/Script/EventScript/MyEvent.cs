@@ -8,9 +8,18 @@ public class MyEvent : MonoBehaviour {
     ManaSystem manaSystem;
     SummonUndeadSystem undeadSummon;
 
-	// Use this for initialization
-	void Start () {
-        manaSystem = GameObject.Find("SkillBoard").GetComponent<ManaSystem>();
+    private void Awake()
+    {
+        // 화면이 죽지 않게 하는 스크립트
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        // 화면 해상도를 고정하는 코드
+        Screen.SetResolution(720, 1280, true);
+    }
+
+    // Use this for initialization
+    void Start () {
+        // 마나시스템의 제거로 사용하지 않음
+        //manaSystem = GameObject.Find("SkillBoard").GetComponent<ManaSystem>();
         undeadSummon = gameObject.GetComponent<SummonUndeadSystem>();
 	}
 
@@ -23,19 +32,20 @@ public class MyEvent : MonoBehaviour {
         if (Input.GetMouseButton(0))
             lClickEvent();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
             rClickDownEvent();
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(1))
             rClickUpEvent();
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
             rClickEvent();
     }
 
     // 좌클릭 다운시 이벤트
     public void lClickDownEvent()
     {
-        if (!manaSystem.onUpSkillBoard)
-            manaSystem.increaseMana();
+        // 마나시스템의 제거로 사용하지 않음
+        //if (!manaSystem.onUpSkillBoard)
+        //    manaSystem.increaseMana();
         undeadSummon.summonCharacter();
     }
     // 좌클릭 업시 이벤트

@@ -9,9 +9,13 @@ public class SummonUndeadSystem : MonoBehaviour {
     public GameObject character;
     //아래는 캐릭터 생성억제용
     public bool IsOnSummonSystem = true;
+
+    private GameObject undeadDeck;
+
     // Use this for initialization
     void Start() {
         character = Resources.Load("mage_1") as GameObject;
+        undeadDeck = GameObject.FindGameObjectWithTag("UndeadDeck");
     }
 
     // Update is called once per frame
@@ -25,6 +29,8 @@ public class SummonUndeadSystem : MonoBehaviour {
         {
             if (Input.GetMouseButtonDown(0))
             {
+                UndeadDeck deck = undeadDeck.GetComponent<UndeadDeck>();
+                character.GetComponent<UndeadControl>().setStatus(deck.selectUndead());
                 spawnCharacter();
             }
         }

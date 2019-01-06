@@ -32,10 +32,10 @@ public class MySkillSlot : MonoBehaviour, IPointerClickHandler
 
     IEnumerator UseSkill()
     {
-        Debug.Log("코루틴 실행됨");
+        // Debug.Log("코루틴 실행됨");
         skill.UseSkill(1);
         yield return new WaitForSeconds(skill.GetCoolTime());
-        Debug.Log("코루틴 정상작동함");
+        // Debug.Log("코루틴 정상작동함");
         skill.UsedSkill(1);
     }
 }

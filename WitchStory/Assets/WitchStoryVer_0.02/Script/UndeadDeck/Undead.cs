@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 
 [System.Serializable]
@@ -42,7 +41,7 @@ public class Undead{
         this.effectToolTip = effectToolTip;
     }
 
-    virtual public void useSkill()
+    virtual public void useProperty()
     {
 
     }
@@ -56,6 +55,11 @@ public class Undead{
         weight = other.weight;
         speed = other.speed;
         effectToolTip = other.effectToolTip;
+    }
+
+    public Vector2 getAtk()
+    {
+        return new Vector2(atk, nAtk);
     }
 }
 
@@ -80,20 +84,55 @@ public class AtkUndead : Undead
 
 public class SkillUndead : Undead
 {
-    public SkillUndead(string name, int num, float atk, float nAtk, float weight, float speed, string effectToolTip)
+    private float duration;
+
+    public SkillUndead(string name, int num, float atk, float nAtk, float weight, float speed, string effectToolTip, float duration)
         : base(name, num, atk, nAtk, weight, speed, effectToolTip)
     {
+        this.duration = duration;
+    }
+    
+    virtual public void useSkill()
+    {
+        GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
+        List<float> distance = null;
+        float minDistance = 0;
+        foreach (GameObject monster in monsters)
+        {
+            Vector3 myPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 monPos = monster.transform.position;
+            float nowDistance = Vector2.Distance(myPos, monPos);
+            distance.Add(nowDistance);
+
+            if(minDistance > nowDistance)
+            {
+                minDistance = nowDistance;
+            }
+        }
+        // 오름차순 정렬
+        int i = 0;
+        foreach(float dis in distance)
+        {
+            if(dis == minDistance)
+            {
+                break;
+            }
+            i++;
+        }
+        GameObject target = monsters[i];
+        Vector2 atk = getAtk();
+        Debug.Log(atk.x + ", " + atk.y);
+        target.GetComponent<slimeControl>().hitDamage(atk.x, atk.y);
+    }
+
+    virtual public void usedSkill()
+    {
 
     }
 
-    public void OnPointerClick(PointerEventData data)
+    public float getDuration()
     {
-        
-    }
-
-    IEnumerator UseSkill()
-    {
-        yield return null;
+        return duration;
     }
 }
 

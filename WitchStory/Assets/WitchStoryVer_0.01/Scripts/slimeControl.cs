@@ -165,6 +165,12 @@ public class slimeControl : MonoBehaviour
         }
     }
 
+    public void hitDamage(float atk, float nAtk)
+    {
+        slime.GetComponent<slimeControl>().HP -= atk * def;
+        AP += nAtk * adef;
+    }
+
     //void knockBack()
     //{
     //    Vector3 movePos = new Vector3(0, 1, 0) * mage.GetComponent<mageMove>().knockBack;

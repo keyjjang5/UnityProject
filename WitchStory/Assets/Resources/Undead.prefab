@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1368663470563756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.022171978, y: -4, z: 0}
+  m_LocalPosition: {x: -0.0443458, y: -4, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,11 +119,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status:
-    name: Atk Undead
-    num: 1
-    weight: 5
-    speed: 2
-    effectToolTip: Tool Tip22
+    name: Skill Undead
+    num: 2
+    weight: 10
+    speed: 1
+    effectToolTip: 'Click : UseSkill'
+  onSkill: 0
 --- !u!212 &212803975943752616
 SpriteRenderer:
   m_ObjectHideFlags: 1

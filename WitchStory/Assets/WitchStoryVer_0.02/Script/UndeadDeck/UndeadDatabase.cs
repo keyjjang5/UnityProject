@@ -12,6 +12,7 @@ public class UndeadDatabase : MonoBehaviour {
     {
         addUndead(new BaseUndead("Base Undead", 0, 5, 5, 5, 5, "Tool Tip"));
         addUndead(new AtkUndead("Atk Undead", 1, 15, 5, 5, 2, "Tool Tip22"));
+        addUndead(new SkillUndead("Skill Undead", 2, 1, 1, 10, 1, "Click : UseSkill", 0.1f));
     }
 
     // Use this for initialization

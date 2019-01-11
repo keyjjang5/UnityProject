@@ -33,10 +33,10 @@ public class UndeadDeck : MonoBehaviour {
 		
 	}
 
-    public void addUndead(int num = 1)
+    public void addUndead(int num = 0)
     {
         // Database에 있는 정보를 꺼내와서 deck 에 저장
-        deck.Add(undeadDatabase.GetComponent<UndeadDatabase>().getUndead(num));
+        deck.Add(undeadDatabase.GetComponent<UndeadDatabase>().getUndead(num) as Undead);
         // 새로운 Undead가 추가 될때 마다 갱신
         totalWeight = 0;
         foreach (Undead undead in deck)

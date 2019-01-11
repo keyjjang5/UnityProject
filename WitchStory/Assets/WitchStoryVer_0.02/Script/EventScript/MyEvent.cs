@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 // 유저가 원하는 이벤트들을 만들어 놓는 스크립트
 public class MyEvent : MonoBehaviour {
@@ -43,10 +45,13 @@ public class MyEvent : MonoBehaviour {
     // 좌클릭 다운시 이벤트
     public void lClickDownEvent()
     {
-        // 마나시스템의 제거로 사용하지 않음
-        //if (!manaSystem.onUpSkillBoard)
-        //    manaSystem.increaseMana();
-        undeadSummon.summonCharacter();
+        if (EventSystem.current.IsPointerOverGameObject() == false)
+        {
+            // 마나시스템의 제거로 사용하지 않음
+            //if (!manaSystem.onUpSkillBoard)
+            //    manaSystem.increaseMana();
+            undeadSummon.summonCharacter();
+        }
     }
     // 좌클릭 업시 이벤트
     public void lClickUpEvent()

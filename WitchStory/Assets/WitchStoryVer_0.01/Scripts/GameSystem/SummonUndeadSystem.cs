@@ -14,7 +14,7 @@ public class SummonUndeadSystem : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        character = Resources.Load("mage_1") as GameObject;
+        character = Resources.Load("Undead") as GameObject;
         undeadDeck = GameObject.FindGameObjectWithTag("UndeadDeck");
     }
 

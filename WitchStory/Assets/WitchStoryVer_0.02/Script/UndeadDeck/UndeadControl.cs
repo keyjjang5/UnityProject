@@ -5,7 +5,7 @@ using UnityEngine;
 public class UndeadControl : MonoBehaviour {
 
     float timer = 0;
-    Undead status;
+    public Undead status;
 
 	// Use this for initialization
 	void Start () {

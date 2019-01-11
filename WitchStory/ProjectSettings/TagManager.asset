@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - Undead
+  - UndeadDeck
   layers:
   - Default
   - TransparentFX

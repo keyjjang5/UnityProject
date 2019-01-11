@@ -6,20 +6,26 @@ public class UndeadDeck : MonoBehaviour {
 
     // 언데드 실제 덱
     public List<Undead> deck;
-    // 언데드 견본 덱 : 덱에서 중복되지 않는 것들이 있음
-    public HashSet<Undead> hashSetDeck;
+    // 언데드 견본 덱 : 덱에서 중복되지 않는 것들이 있음 : 사용할 이유가 없어서 제거
     // 총합 가중치
     public float totalWeight;
-    
+    public GameObject undeadDatabase;
 
 	// Use this for initialization
 	void Start () {
+        addUndead(0);
+        addUndead(0);
+        addUndead(0);
+        addUndead(0);
+        addUndead(0);
+
         // 게임을 시작할 때 초기화
         totalWeight = 0;
 		foreach(Undead undead in deck)
         {
             totalWeight += undead.weight;
         }
+        undeadDatabase = GameObject.Find("Database");
 	}
 	
 	// Update is called once per frame
@@ -27,9 +33,22 @@ public class UndeadDeck : MonoBehaviour {
 		
 	}
 
-    public void addUndead(int num)
+    public void addUndead(int num = 1)
     {
+        // Database에 있는 정보를 꺼내와서 deck 에 저장
+        deck.Add(undeadDatabase.GetComponent<UndeadDatabase>().getUndead(num));
         // 새로운 Undead가 추가 될때 마다 갱신
+        totalWeight = 0;
+        foreach (Undead undead in deck)
+        {
+            totalWeight += undead.weight;
+        }
+    }
+
+    public void deleteUndead(int num = 0)
+    {
+        deck.RemoveAt(num);
+        // UndeadDeck이 변화 할 때 마다 갱신
         totalWeight = 0;
         foreach (Undead undead in deck)
         {
@@ -49,6 +68,7 @@ public class UndeadDeck : MonoBehaviour {
             if (random >= weight && random <= weight + undead.weight)
             {
                 summonUndead = undead;
+                break;
             }
             else
                 weight += undead.weight;

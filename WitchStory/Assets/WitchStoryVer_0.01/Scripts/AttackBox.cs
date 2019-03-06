@@ -10,7 +10,7 @@ public class AttackBox : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        monster = GameObject.FindGameObjectWithTag("Monster");
+        monster = transform.parent.gameObject;
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         isAttack = false;
 	}
@@ -43,7 +43,8 @@ public class AttackBox : MonoBehaviour {
         float distance = Vector2.Distance(transform.position, collision.transform.position);
         if (collision.gameObject.tag == "Undead" && isAttack && distance >= 1.5) 
         {
-            monster.GetComponent<slimeControl>().HP -= collision.gameObject.GetComponent<MageMove>().character.atk / 2;
+            monster.GetComponent<slimeControl>().HP -= collision.gameObject.GetComponent<UndeadControl>().status.getAtk().x / 2;
+            monster.GetComponent<slimeControl>().AP -= collision.gameObject.GetComponent<UndeadControl>().status.getAtk().y / 2;
             Destroy(collision.gameObject);
         }
     }

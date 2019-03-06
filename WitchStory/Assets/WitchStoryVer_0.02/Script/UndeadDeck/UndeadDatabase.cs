@@ -6,13 +6,13 @@ public class UndeadDatabase : MonoBehaviour {
 
     // 리스트의 인덱스는 0부터 시작
     // Undead들의 데이터 베이스
-    public List<Undead> list;
+    public List<Undead> list = new List<Undead>();
 
     private void Awake()
     {
-        addUndead(new BaseUndead("Base Undead", 0, 5, 5, 5, 5, "Tool Tip"));
-        addUndead(new AtkUndead("Atk Undead", 1, 15, 5, 5, 2, "Tool Tip22"));
-        addUndead(new SkillUndead("Skill Undead", 2, 1, 1, 10, 1, "Click : UseSkill", 0.1f));
+        addUndead(new BaseUndead("Base Undead", 0, 5, 5, 5, 5, "Tool Tip") as Undead);
+        addUndead(new AtkUndead("Atk Undead", 1, 15, 5, 5, 2, "Tool Tip22") as Undead);
+        addUndead(new SkillUndead("Skill Undead", 2, 1, 1, 10, 1, "Click : UseSkill", 0.1f) as Undead);
     }
 
     // Use this for initialization

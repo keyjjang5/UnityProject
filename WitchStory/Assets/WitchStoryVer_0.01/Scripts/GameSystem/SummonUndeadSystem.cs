@@ -29,8 +29,7 @@ public class SummonUndeadSystem : MonoBehaviour {
         {
             if (Input.GetMouseButtonDown(0))
             {
-                UndeadDeck deck = undeadDeck.GetComponent<UndeadDeck>();
-                character.GetComponent<UndeadControl>().setStatus(deck.selectUndead());
+                
                 spawnCharacter();
             }
         }
@@ -44,18 +43,28 @@ public class SummonUndeadSystem : MonoBehaviour {
             character.GetComponent<Transform>().position = new Vector3(sponVec.x, -4, (float)LayerType.battleField);
             GameObject mage1 = Instantiate(character) as GameObject;
             mage1.transform.SetParent(transform);
+
+            UndeadDeck deck = undeadDeck.GetComponent<UndeadDeck>();
+            mage1.GetComponent<UndeadControl>().setStatus(deck.selectUndead());
+            
         }
         else if (sponVec.x < -1.0)
         {
             character.GetComponent<Transform>().position = new Vector3(-1, -4, (float)LayerType.battleField);
             GameObject mage1 = Instantiate(character) as GameObject;
             mage1.transform.SetParent(transform);
+
+            UndeadDeck deck = undeadDeck.GetComponent<UndeadDeck>();
+            mage1.GetComponent<UndeadControl>().setStatus(deck.selectUndead());
         }
         else if (sponVec.x > 1.0)
         {
             character.GetComponent<Transform>().position = new Vector3(1, -4, (float)LayerType.battleField);
             GameObject mage1 = Instantiate(character) as GameObject;
             mage1.transform.SetParent(transform);
+
+            UndeadDeck deck = undeadDeck.GetComponent<UndeadDeck>();
+            mage1.GetComponent<UndeadControl>().setStatus(deck.selectUndead());
         }
     }
 

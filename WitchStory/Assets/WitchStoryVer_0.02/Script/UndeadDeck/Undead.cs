@@ -73,6 +73,7 @@ public class BaseUndead : Undead
     }
 }
 
+// 공격력 특화 언데드(견본)
 public class AtkUndead : Undead
 {
     public AtkUndead(string name, int num, float atk, float nAtk, float weight, float speed, string effectToolTip)
@@ -82,6 +83,7 @@ public class AtkUndead : Undead
     }
 }
 
+// 스킬 언데드(견본)
 public class SkillUndead : Undead
 {
     private float duration;
@@ -92,16 +94,30 @@ public class SkillUndead : Undead
         this.duration = duration;
     }
     
+    // 가장 가까이에 있는 적을 공격하는 스킬
     virtual public void useSkill()
     {
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
-        List<float> distance = null;
+        List<float> distance = new List<float>();
+
         float minDistance = 0;
+        int i = 0;
         foreach (GameObject monster in monsters)
         {
             Vector3 myPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Debug.Log(myPos.x + ", " + myPos.y);
             Vector3 monPos = monster.transform.position;
+            Debug.Log(monPos.x + ", " + monPos.y);
             float nowDistance = Vector2.Distance(myPos, monPos);
+            Debug.Log("대상과의 거리" + nowDistance);
+
+            if (i == 0) 
+            {
+                minDistance = nowDistance;
+                i++;
+            }
+            
+            
             distance.Add(nowDistance);
 
             if(minDistance > nowDistance)
@@ -109,8 +125,8 @@ public class SkillUndead : Undead
                 minDistance = nowDistance;
             }
         }
-        // 오름차순 정렬
-        int i = 0;
+        
+        i = 0;
         foreach(float dis in distance)
         {
             if(dis == minDistance)

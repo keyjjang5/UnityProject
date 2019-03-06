@@ -931,7 +931,8 @@ Prefab:
       propertyPath: isAttack
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114119016855981846, guid: 1ae3691c8aa023a49b8156a13e1c8794, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 1ae3691c8aa023a49b8156a13e1c8794, type: 2}
   m_IsPrefabParent: 0
 --- !u!224 &1695701580 stripped

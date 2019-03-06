@@ -7,12 +7,14 @@ using UnityEngine.EventSystems;
 public class UndeadControl : MonoBehaviour {
 
     float timer = 0;
-    public Undead status;
+    public Undead status=null;
 
-    public bool onSkill = false;
+    public bool onSkill;
 
 	// Use this for initialization
 	void Start () {
+        onSkill = false;
+        
         if (status is SkillUndead)
         {
             onSkill = true;
@@ -21,6 +23,7 @@ public class UndeadControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         timer += Time.deltaTime;
 
         Vector3 magePos = gameObject.GetComponent<Transform>().position;
@@ -63,16 +66,16 @@ public class UndeadControl : MonoBehaviour {
     {
         // 안정성을 위한 캐스팅후 처리가 제대로 안되면 탈출
         SkillUndead undead = status as SkillUndead;
-        Debug.Log("캐스팅 시도");
+        // Debug.Log("캐스팅 시도");
         if (undead == null)
             yield break;
 
-        Debug.Log("코루틴 실행됨");
+        // Debug.Log("코루틴 실행됨");
         // 스킬실행
         undead.useSkill();
         // 지속시간 대기
         yield return new WaitForSeconds(undead.getDuration());
-        Debug.Log("코루틴 정상작동함");
+        // Debug.Log("코루틴 정상작동함");
         // 스킬종료
         undead.usedSkill();
     }

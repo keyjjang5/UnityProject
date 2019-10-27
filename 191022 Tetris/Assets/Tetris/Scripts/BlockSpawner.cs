@@ -6,6 +6,9 @@ public class BlockSpawner : MonoBehaviour
 {
     List<GameObject> blocks = new List<GameObject>();
 
+    GameObject nextBlock;
+    BlockController nBController;
+
     private void Awake()
     {
         blocks.Add(Resources.Load("Prefabs/IBlock") as GameObject);
@@ -19,24 +22,41 @@ public class BlockSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        nextBlock = GameObject.Find("NextBlock/NextBlockSpawn");
+        createBlock();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 자식 객체가 없다면
-        if(transform.childCount == 0)
-        {
-            createBlock();
-        }
+        // 자식 객체가 있다면
+        if (transform.childCount != 0)
+            return;
+
+        getBlock();
+    }
+
+    private void getBlock()
+    {
+        if (nextBlock.transform.childCount == 0)
+            return;
+
+        Transform next = nextBlock.transform.GetChild(0);
+        next.SetParent(transform);
+        next.position = transform.position;
+        next.GetComponent<BlockController>().setIsActive(true);
+
+        createBlock();
     }
 
     private void createBlock()
     {
         int randomBlock = Random.Range(0, 6);
         GameObject newBlock = Instantiate(blocks[randomBlock]) as GameObject;
-        newBlock.transform.SetParent(transform);
+        nBController = newBlock.GetComponent<BlockController>();
+
+        newBlock.transform.SetParent(nextBlock.transform);
         newBlock.transform.localPosition = new Vector3(0, 0, 0);
+        nBController.setIsActive(false);
     }
 }

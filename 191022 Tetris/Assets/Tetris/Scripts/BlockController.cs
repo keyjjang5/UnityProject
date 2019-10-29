@@ -103,6 +103,17 @@ public class BlockController : MonoBehaviour
         return;
     }
 
+    public static Transform MoveDown(Transform transform)
+    {
+        Quaternion currentRotate = transform.rotation;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        transform.Translate(new Vector3(0, -1.0f, 0));
+        transform.rotation = currentRotate;
+
+        return transform;
+    }
+
     void spin(KeyCode key)
     {
         if (key != KeyCode.W)
@@ -123,9 +134,11 @@ public class BlockController : MonoBehaviour
 
         // GameManager에 공간 점유 전달
         for (int i = 0; i < 4; i++)
-            gameManager.fillBoard(-(int)pos[i].x, -(int)pos[i].y - 1);
+            gameManager.fillBoard(-(int)pos[i].x, -(int)pos[i].y - 1, transform.GetChild(i).gameObject);
 
         transform.SetParent(gameManagerObj.transform);
+
+        gameManager.checkLineClear();
     }
 
     void fall()

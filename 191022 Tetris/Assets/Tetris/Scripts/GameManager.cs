@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // x, y
-    bool[, ] isThereArray = new bool[12, 21];
+    public bool[,] isThereArray = new bool[12, 21];
+    public GameObject[,] blocks = new GameObject[12, 21];
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +32,10 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void fillBoard(int x, int y)
+    public void fillBoard(int x, int y, GameObject gameObj)
     {
         isThereArray[x, y] = true;
+        blocks[x, y] = gameObj;
     }
 
     public bool isThere(int x, int y)
@@ -45,5 +47,50 @@ public class GameManager : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    public void checkLineClear()
+    {
+        int cnt = 0;
+        for(int j = 1; j < 20; j++)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                if (isThereArray[i, j])
+                    cnt++;
+            }
+            if (cnt == 10)
+                lineClear(j);
+
+            cnt = 0;
+        }
+    }
+
+    void lineClear(int j)
+    {
+        for (int i = 1; i < 11; i++)
+        {
+            isThereArray[i, j] = false;
+            Destroy(blocks[i, j]);
+            blocks[i, j] = null;
+        }
+
+        for (int y = j - 1; y > 1; y--)
+        {
+            for (int k = 1; k < 11; k++)
+            {
+                isThereArray[k, y + 1] = isThereArray[k, y];
+
+                if (!isThereArray[k, y])
+                    continue;
+
+                BlockController.MoveDown(blocks[k, y].transform);
+                blocks[k, y + 1] = blocks[k, y];
+
+                //blockControllers[k, y].move(KeyCode.S);
+                //blockControllers[k, y].move(KeyCode.S);
+            }
+        }
+
     }
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class BlockSpawner : MonoBehaviour
 {
-    List<GameObject> blocks = new List<GameObject>();
+    private List<GameObject> blocks = new List<GameObject>();
 
-    GameObject nextBlock;
-    BlockController nBController;
+    private GameObject nextBlock;
+    private BlockController nBController;
 
     private void Awake()
     {

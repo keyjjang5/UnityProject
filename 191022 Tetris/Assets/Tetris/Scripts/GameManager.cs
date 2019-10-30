@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     // x, y
-    public bool[,] isThereArray = new bool[12, 21];
-    public GameObject[,] blocks = new GameObject[12, 21];
+    private bool[,] isThereArray = new bool[12, 21];
+    private GameObject[,] blocks = new GameObject[12, 21];
+    private int comboCount;
+    private int score;
+    private Text comboText;
+    private Text scoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +29,11 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < 12; i++)
             isThereArray[i, 20] = true;
+
+        comboCount = 0;
+        score = 0;
+        comboText = GameObject.Find("Combo").transform.GetChild(0).GetComponent<Text>();
+        scoreText = GameObject.Find("Score").transform.GetChild(0).GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -34,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     public void fillBoard(int x, int y, GameObject gameObj)
     {
+        if (x > 11 || x < 0 || y > 20 || y < 0)
+            return;
         isThereArray[x, y] = true;
         blocks[x, y] = gameObj;
     }
@@ -52,6 +64,7 @@ public class GameManager : MonoBehaviour
     public void checkLineClear()
     {
         int cnt = 0;
+        bool mainTainCombo = false;
         for(int j = 1; j < 20; j++)
         {
             for (int i = 1; i < 11; i++)
@@ -59,11 +72,18 @@ public class GameManager : MonoBehaviour
                 if (isThereArray[i, j])
                     cnt++;
             }
+
             if (cnt == 10)
+            {
                 lineClear(j);
+                mainTainCombo = true;
+            }
 
             cnt = 0;
         }
+
+        if (!mainTainCombo)
+            clearCombo();
     }
 
     void lineClear(int j)
@@ -86,11 +106,34 @@ public class GameManager : MonoBehaviour
 
                 BlockController.MoveDown(blocks[k, y].transform);
                 blocks[k, y + 1] = blocks[k, y];
-
-                //blockControllers[k, y].move(KeyCode.S);
-                //blockControllers[k, y].move(KeyCode.S);
             }
         }
 
+        increaseCombo();
+    }
+
+    void increaseCombo()
+    {
+        comboCount++;
+        increaseScore(1000 * comboCount);
+        drawText();
+    }
+
+    void clearCombo()
+    {
+        comboCount = 0;
+        drawText();
+    }
+
+    public void increaseScore(int value)
+    {
+        score += value;
+        drawText();
+    }
+
+    void drawText()
+    {
+        comboText.text = comboCount.ToString();
+        scoreText.text = score.ToString();
     }
 }

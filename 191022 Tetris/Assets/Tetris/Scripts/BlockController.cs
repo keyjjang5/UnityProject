@@ -6,7 +6,7 @@ public class BlockController : MonoBehaviour
 {
     private float timer;
     // y는 그대로가 자기위치 x는 -1 해준 것이 자기위치
-    public Vector2[] pos = new Vector2[4];
+    private Vector2[] pos = new Vector2[4];
     private GameObject gameManagerObj;
     private GameManager gameManager;
 
@@ -38,13 +38,13 @@ public class BlockController : MonoBehaviour
 
         if (timer >= 0.2f && Input.anyKey)
         {
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
                 move(KeyCode.S);
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
                 move(KeyCode.A);
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
                 move(KeyCode.D);
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
                 spin(KeyCode.W);
             if (Input.GetKey(KeyCode.Space))
                 fall();
@@ -121,6 +121,18 @@ public class BlockController : MonoBehaviour
 
         transform.Rotate(new Vector3(0, 0, 90.0f));
 
+        for (int i = 0; i < 4; i++)
+        {
+            Transform childTransform = transform.GetChild(i);
+            Vector2 childPos = childTransform.position;
+
+            if (gameManager.isThere(-(int)childPos.x, -((int)childPos.y + 1)))
+            {
+                transform.Rotate(new Vector3(0, 0, -90.0f));
+                break;
+            }
+        }
+
         timer = 0.0f;
 
         return;
@@ -135,6 +147,9 @@ public class BlockController : MonoBehaviour
         // GameManager에 공간 점유 전달
         for (int i = 0; i < 4; i++)
             gameManager.fillBoard(-(int)pos[i].x, -(int)pos[i].y - 1, transform.GetChild(i).gameObject);
+
+        // 점수 증가
+        gameManager.increaseScore(100);
 
         transform.SetParent(gameManagerObj.transform);
 
